@@ -27,5 +27,31 @@ document.getElementById('consultationForm').addEventListener('submit', function(
         errorDiv.innerHTML = errors.join('<br>');
         return;
     }
-    console.log("ok!");
+    const formData = new FormData();
+    formData.append('name',name);
+    formData.append('email',email);
+    formData.append('subject',subject);
+    formData.append('message',message);
+
+    fetch('send.php',{
+        method:'POST',
+        body:formData
+    })
+        .then(response=>response.json())
+        .then(data=>{
+            if (data.success === 'success'){
+                errorDiv.style.color = 'green';
+                errorDiv.innerHTML = 'Poruka je uspesno poslata';
+                document.getElementById('consultationForm').reset();
+            }
+            else{
+                errorDiv.style.color = 'red';
+                errorDiv.innerHTML = data.message || 'greska na serveru';
+            }
+        })
+        .catch(error=>{
+            errorDiv.style.color = 'red';
+            errorDiv.innerHTML = 'konekcija sa serverom nije uspesna';
+            console.log('Error: ',error);
+        })
 });
