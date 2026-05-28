@@ -39,7 +39,7 @@ document.getElementById('consultationForm').addEventListener('submit', function(
     })
         .then(response=>response.json())
         .then(data=>{
-            if (data.success === 'success'){
+            if (data.status === 'success'){
                 errorDiv.style.color = 'green';
                 errorDiv.innerHTML = 'Poruka je uspesno poslata';
                 document.getElementById('consultationForm').reset();
